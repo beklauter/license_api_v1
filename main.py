@@ -1,25 +1,14 @@
-import os
+import api
+import start
+import user
 
-from flask import Flask, jsonify, request
-from dotenv import load_dotenv
-
-load_dotenv()
-print()
-app = Flask(__name__)
-
-licenses = {
-    "license1": True,
-    "license2": False,
-    "license3": True
-}
-
-@app.route('/license/<license_name>', methods=['GET'])
-def check_license(license_name):
-    status = licenses.get(license_name)
-    if status is None:
-        return jsonify({"error": "Lizenz nicht gefunden"}), 404
-    return jsonify({"license": license_name, "activated": status}), 200
 
 if __name__ == '__main__':
-    app.run(debug=os.getenv("DEBUG"), host=os.getenv("HOST"), port=os.getenv("PORT"))
+    start.load_env()
 
+    new_user = user.add_user("testuser", "testpass")
+    new_license = new_user.create_license()
+    user.save_users()
+    print(f"User: {new_user.username}, Lizenz: {new_license}")
+
+    api.api_run()

@@ -1,1 +1,0 @@
-Management Page -> Create and Manage the Licenses
