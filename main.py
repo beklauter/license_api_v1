@@ -1,5 +1,10 @@
-from flask import Flask, jsonify, request
+import os
 
+from flask import Flask, jsonify, request
+from dotenv import load_dotenv
+
+load_dotenv()
+print()
 app = Flask(__name__)
 
 licenses = {
@@ -16,5 +21,5 @@ def check_license(license_name):
     return jsonify({"license": license_name, "activated": status}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=os.getenv("DEBUG"), host=os.getenv("HOST"), port=os.getenv("PORT"))
 
